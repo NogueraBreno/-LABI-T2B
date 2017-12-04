@@ -13,6 +13,19 @@
 <p>
     @Html.ActionLink("Adicionar Nova Musica", "Create")
 </p>
+
+@if (TempData["Mensagem"] != null){
+    <p class="alert-success">@TempData["Mensagem"]</p>
+}
+@if (TempData["Mensagem2"] != null)
+{
+    <p class="alert-warning">@TempData["Mensagem2"]</p>
+}
+@if (TempData["Mensagem3"] != null)
+{
+    <p class="alert-danger">@TempData["Mensagem3"]</p>
+}
+
 <table class="table">
     
     <tr>

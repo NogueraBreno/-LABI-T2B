@@ -79,6 +79,8 @@ namespace WebApp_Breno.Controllers
         // GET: Musicas/Create
         public ActionResult Create()
         {
+            TempData["Mensagem"] = "Musica Cadastrado com Sucesso!";
+
             return View();
         }
 
@@ -102,6 +104,9 @@ namespace WebApp_Breno.Controllers
         // GET: Musicas/Edit/5
         public ActionResult Edit(int? id)
         {
+
+            TempData["Mensagem2"] = "Musica Atualizada com Sucesso!";
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -133,6 +138,7 @@ namespace WebApp_Breno.Controllers
         // GET: Musicas/Delete/5
         public ActionResult Delete(int? id)
         {
+            TempData["Mensagem3"] = "Musica Excluida com Sucesso!";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
