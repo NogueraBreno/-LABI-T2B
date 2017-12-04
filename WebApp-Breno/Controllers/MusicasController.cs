@@ -21,12 +21,46 @@ namespace WebApp_Breno.Controllers
         }
 
         // GET: Musicas
-        public ActionResult Index(int? id)
+        public ActionResult Index(string ordenacao,int? pagina)
         {
-                                  
-            return View(db.Musicas);
+            ViewBag.OrdenacaoAtual = ordenacao;
+            ViewBag.TituloParam = String.IsNullOrEmpty(ordenacao) ? "Titulo_desc" : "";
+            ViewBag.CategoriaParam = ordenacao == "Categoria" ? "Categoria_desc" : "Categoria";
+            ViewBag.TipoParam = ordenacao == "Tipo" ? "Tipo_desc" : "Tipo";
+
+            var musicas = from m in db.Musicas select m;
+
+
+            int tamanhoPagina = 3;
+            int numeroPagina = pagina ?? 1;
+
+            switch (ordenacao)
+            {
+                case "Titulo_desc":
+                    musicas = musicas.OrderByDescending(s => s.Titulo);
+                    break;
+                case "Categoria":
+                    musicas = musicas.OrderBy(s => s.Categoria);
+                    break;
+                case "Categoria_desc":
+                    musicas = musicas.OrderByDescending(s => s.Categoria);
+                    break;
+                case "Tipo_desc":
+                    musicas = musicas.OrderByDescending(s => s.Tipo);
+                    break;
+                case "Tipo":
+                    musicas = musicas.OrderBy(s => s.Tipo);
+                    break;
+                default:
+                    musicas = musicas.OrderBy(s => s.Titulo);
+                    break;
+             }
+
+
+            return View(musicas.ToPagedList(numeroPagina, tamanhoPagina));
         }
 
+        // db.Musicas.OrderBy(p => p.Titulo).ToPagedList(numeroPagina, tamanhoPagina)
         // GET: Musicas/Details/5
         public ActionResult Details(int? id)
         {
