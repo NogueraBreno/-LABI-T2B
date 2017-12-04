@@ -15,40 +15,15 @@ namespace WebApp_Breno.Controllers
     {
         private BdSisMusica db = new BdSisMusica();
 
-        // GET: Musicas
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString)
+        public ActionResult VerificaTitulo(string Titulo)
         {
-            ViewBag.TituloSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DataSortParm = sortOrder == "Data" ? "data_desc" : "Data";
-            ViewBag.CurrentFilter = searchString;
+            return Json(db.Musicas.All(c => c.Titulo.ToLower() != Titulo.ToLower()), JsonRequestBehavior.AllowGet);
+        }
 
-            var musicas = from s in db.Musicas
-                           select s;
-            
-           
-            
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                musicas = musicas.Where(s => s.Titulo.Contains(searchString));
-            }
-
-            switch (sortOrder)
-            {
-                case "titulo_desc":
-                    musicas = musicas.OrderByDescending(s => s.Titulo);
-                    break;
-                case "Data":
-                    musicas = musicas.OrderBy(s => s.Data);
-                    break;
-                case "data._desc":
-                    musicas = musicas.OrderByDescending(s => s.Data);
-                    break;
-                default:
-                    musicas = musicas.OrderBy(s => s.Categoria);
-                    break;
-            }
-
-            
+        // GET: Musicas
+        public ActionResult Index(int? id)
+        {
+                                  
             return View(db.Musicas);
         }
 
